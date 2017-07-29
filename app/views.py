@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from twilio.rest import TwilioRestClient
-
+from models import Sakhi
 # Create your views here.
 
 def hello_world(request):
@@ -28,6 +28,8 @@ def register_sakhi(request):
 		user = User.objects.create_user(username=username,password=password,first_name=name)
 		user.set_password(password)
 		user.save()
+		sakhi = Sakhi.objects.create(user=user)
+		sakhi.save()
 		return HttpResponseRedirect('/admin')
 	else:
 		return render(request,'sakhi_register.html')
