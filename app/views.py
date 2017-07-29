@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from twilio.rest import TwilioRestClient
 from models import Sakhi, Customer, Order
 import re
+import urllib2
+import json
 # Create your views here.
 
 def hello_world(request):
@@ -129,9 +131,28 @@ def customer_order(request):
 				order = Order.objects.create(nachni=nachni,oat=oat,mari=mari,urgent=1,placed_by=customer.id,placed_from=-1)
 			else:
 				order = Order.objects.create(nachni=nachni,oat=oat,mari=mari,urgent=0,placed_by=customer.id,placed_from=-1)
-
+			order.save()
+			match_order_url = '/match_order/' + str(order.id) + '/'
+			return HttpResponseRedirect(match_order_url) 
 		else:
 			return render(request,'customer_order.html')
+def match_order(request,order_id):
+	all_sakhis = Sakhi.objects.all()
+	customer_id = Order.objects.get(id=order_id).placed_by
+	customer = Customer.objects.get(id=customer_id)
+	customer_lat = customer.lat
+	customer_lng = customer.lng
+	for sakhi in all_sakhis:
+		sakhi_lat = sakhi.lat
+		sakhi_lng = sakhi.lng
+		request_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+customer_lat+','+customer_lng+'&destinations='+sakhi_lat+','+sakhi_lng+'&key=AIzaSyDAwcnYHYw4He8TjQsxqKpEqIXNw08et4M'
+		response = urllib2.urlopen(request_url).read()
+		json_response = json.loads(response)
+		distance = json_response['rows'][0]['elements'][0]['duration']['value']
+		print json_response
+		print distance
+	print customer_id
+	return HttpResponse('lol')
 
 
 '''
