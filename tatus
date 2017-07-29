@@ -1,0 +1,144 @@
+[33mcommit 885c4c7e1271dc191227eb33e738a88b28166e27[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: JAYESH WALAVALKAR <jayeshwalavalkar7@gmail.com>
+Date:   Sat Jul 29 18:44:51 2017 +0530
+
+    build change
+
+[33mcommit 27b81037486542c49b0bf482749e465d6ec8ae13[m
+Author: JAYESH WALAVALKAR <jayeshwalavalkar7@gmail.com>
+Date:   Sat Jul 29 18:29:49 2017 +0530
+
+    gt
+
+[33mcommit 7003b00bf438444a9ef4e9033eaf56620ad10b91[m
+Author: JAYESH WALAVALKAR <jayeshwalavalkar7@gmail.com>
+Date:   Sat Jul 29 18:23:28 2017 +0530
+
+    gt
+
+[33mcommit 2d25165323b6e8ff4206ccdd872ff6604bc8c9ff[m
+Author: JAYESH WALAVALKAR <jayeshwalavalkar7@gmail.com>
+Date:   Sat Jul 29 18:18:35 2017 +0530
+
+    gentella
+    
+    g
+
+[33mcommit 91c4efb6f7da409ca7485a580e2b4cbff37e7be6[m
+Author: Priyanka <pranksrane8@gmail.com>
+Date:   Sat Jul 29 18:06:55 2017 +0530
+
+    index1 done
+
+[33mcommit f3b7aa06e5ce25851da290f5385cfc2eb729d610[m
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 17:34:10 2017 +0530
+
+    added location input
+
+[33mcommit 20b18247c829b2745203c282ddfeb0347df4ea0c[m
+Author: dipasha <dipasha96@gmail.com>
+Date:   Sat Jul 29 17:22:26 2017 +0530
+
+    changes for team 7
+
+[33mcommit 3f4dd5750bb700997d343bb64e6ec50216013e9e[m
+Merge: dac27bc 7bb9862
+Author: dipasha <dipasha96@gmail.com>
+Date:   Sat Jul 29 17:16:18 2017 +0530
+
+    Merge branch 'master' of https://github.com/Mumbai2017/team-7
+
+[33mcommit dac27bcf30d4f7cd76f341290f2468ce759a4f44[m
+Author: dipasha <dipasha96@gmail.com>
+Date:   Sat Jul 29 17:15:12 2017 +0530
+
+    new changes
+
+[33mcommit 890c70d2ecd4dc9d45cb48ff0f1a5fb98c03c02a[m
+Author: dipasha <dipasha96@gmail.com>
+Date:   Sat Jul 29 17:13:14 2017 +0530
+
+    new changes
+
+[33mcommit 7bb98625397d385c2fd94a370984c53a99defaa5[m
+Merge: 83e8c70 09271e4
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 17:11:20 2017 +0530
+
+    Merge branch 'master' of https://github.com/Mumbai2017/team-7
+
+[33mcommit 83e8c70a6699338cf83578b86329809cae434d25[m
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 17:10:44 2017 +0530
+
+    added Customer model
+
+[33mcommit 4c3b787f5fc4eed88bbf6af398708b0666a2a736[m
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 16:52:04 2017 +0530
+
+    added sakhi model
+
+[33mcommit a6160d216e4a5156571a55179bf9448c3db2347c[m
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 16:19:12 2017 +0530
+
+    register standard user added
+
+[33mcommit 09271e4f6a537cfe854eb0ea51575428ab2a50fe[m
+Author: Priyanka <pranksrane8@gmail.com>
+Date:   Sat Jul 29 16:19:08 2017 +0530
+
+    index commit
+
+[33mcommit 64a50f299bf12014ca28b2c694f33be6dd5298de[m
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 16:08:19 2017 +0530
+
+    removed from root
+
+[33mcommit 9b68e403ecc226114c86fa4169d27914942559c2[m
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 16:04:59 2017 +0530
+
+    removed erronous commit
+
+[33mcommit 70071350b0c2c1cfda72144cb1368f8bf308d69d[m
+Merge: a7325e0 2813727
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 16:03:13 2017 +0530
+
+    Merge branch 'master' of https://github.com/Mumbai2017/team-7
+
+[33mcommit a7325e080de4a3b71fc494dc83d48cc786233365[m
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 16:01:49 2017 +0530
+
+    added sakhi registration
+
+[33mcommit 2813727b54f1f4ac563d4ae57aa1747e6b178908[m
+Author: abhisavaliya2 <abhisavaliya9@gmail.com>
+Date:   Sat Jul 29 15:59:38 2017 +0530
+
+    Bootstrap
+
+[33mcommit 2fa3e90a65824cf24c8d3ab78ebad94ce0392392[m
+Author: Rudresh Panchal <rudreshpanchal11@gmail.com>
+Date:   Sat Jul 29 15:54:30 2017 +0530
+
+    initialized project and app
+
+[33mcommit a4cc673816b91ac874fd008d4c87d5cb7911f529[m
+Author: JAYESH WALAVALKAR <jayeshwalavalkar7@gmail.com>
+Date:   Sat Jul 29 15:16:25 2017 +0530
+
+    Sakhi reg/login
+
+[33mcommit 679aa23d39a0fd5ac49ab672e2c8031c3f335857[m
+Author: JAYESH WALAVALKAR <jayeshwalavalkar7@gmail.com>
+Date:   Sat Jul 29 14:47:00 2017 +0530
+
+    Registration/login
+    
+    registration
