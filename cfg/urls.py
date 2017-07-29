@@ -27,4 +27,6 @@ urlpatterns = [
     url(r'^customer-order/$', views.customer_order),
     url(r'^match_order/(\d+)/$', views.match_order),
     url(r'^order_status/(\d+)/$', views.order_status),
+    url(r'^login_sakhi/$', views.login_sakhi),
+    url(r'^sakhi_dashboard/$', views.sakhi_dashboard),
 ]

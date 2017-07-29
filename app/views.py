@@ -122,6 +122,13 @@ def recieve_sms(request):
 			order = Order.objects.get(id=order_id)
 			order.order_direction = order_direction
 			order.save()
+			'''
+			sakhi_id = order.placed_from
+			sakhi = Sakhi.objects.get(id=sakhi_id)
+			phone_number = sakhi.phone
+			distance =  	
+			'''
+			#You can add sending direction sms later
 
 def customer_order(request):
 	if request.user.is_authenticated():
@@ -133,9 +140,6 @@ def customer_order(request):
 			nachni = request.POST.get('nachni')
 			oat = request.POST.get('oats')
 			urgent_status = request.POST.get('delivery')
-			print mari
-			print oat
-			print nachni
 			if urgent_status == 'urgent':
 				order = Order.objects.create(nachni=nachni,oat=oat,mari=mari,urgent=1,placed_by=customer.id,placed_from=-1)
 			else:
@@ -222,12 +226,31 @@ def order_status(request,order_id):
 	sakhi_phone = sakhi.phone
 	return render(request,'order_placed.html',{'status_of_order':status_of_order,'sakhi_addr':sakhi_addr,'assigned_with':assigned_with,'order_by':order_by,'sakhi_phone':sakhi_phone})
 
-def sakhi_dashboard(request,order_id):
+def sakhi_dashboard(request):
 	if request.user.is_authenticated():
 		user = request.user
 		sakhi = Sakhi.objects.get(user=user)
-		pass
+		sakhi_id = sakhi.id
+		orders = Order.objects.filter(placed_from=sakhi_id)
+		oat = sakhi.oat
+		nachni = sakhi.nachni
+		mari = sakhi.mari
+		return render(request,'sakhi_dashboard.html')
 
+def give_sakhi_directions(sakhi_id,distance_id):
+	pass
+def login_sakhi(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		user = authenticate(username=username,password=password)
+		if user:
+			login(request,user)
+			return HttpResponseRedirect('/sakhi_dashboard/')
+		else:
+			return HttpResponse('invalid creds')
+	else:
+		return render(request,'login.html')
 
 
 '''
