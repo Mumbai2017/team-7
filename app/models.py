@@ -13,7 +13,7 @@ class Sakhi(models.Model):
 	mari = models.IntegerField(default=0,blank=True)
 	oat = models.IntegerField(default=0,blank=True)
 	def __str__(self):
-		return str(self.user.username)
+		return str(self.user.username + ' ' +str(self.id))
 class Customer(models.Model):
 	user = models.OneToOneField(User)
 	phone = models.CharField(max_length=100,blank=True)

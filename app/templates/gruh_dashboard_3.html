@@ -290,10 +290,10 @@
             <div class="clearfix"></div>
 
             <div class="row">
-              <div class="col-md-6 col-sm-6 col-xs-12">
+              <div class="col-md-12 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Line graph<small>Sessions</small></h2>
+                    <h2>Bar graph <small>Sessions</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -312,12 +312,11 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
-                    <canvas id="lineChart"></canvas>
+                    <canvas id="mybarChart"></canvas>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
         </div>
         <!-- page content -->
 
@@ -345,7 +344,7 @@
 
     <!-- Custom Theme Scripts -->
     <!-- <script src="{% static "build/js/custom.min.js" %}"></script> -->
-    <script type="text/javascript">
+	   <script type="text/javascript">
       /**
  * Resize function without multiple trigger
  * 
@@ -2555,15 +2554,19 @@ if (typeof NProgress != 'undefined') {
         var mybarChart = new Chart(ctx, {
         type: 'bar',
         data: {
-          labels: ["January", "February", "March", "April", "May", "June", "July"],
+          labels:{{sakhi_name|safe}},
           datasets: [{
-          label: '# of Votes',
+          label: '# mari sold',
           backgroundColor: "#26B99A",
-          data: [51, 30, 40, 28, 92, 50, 45]
+          data: {{mari}}
           }, {
-          label: '# of Votes',
+          label: '# nachni sold',
+          backgroundColor: "#56B110",
+          data: {{nachni}}
+          },{
+          label: '# oat sold',
           backgroundColor: "#03586A",
-          data: [41, 56, 25, 48, 72, 34, 12]
+          data: {{oat}}
           }]
         },
 
@@ -5415,7 +5418,7 @@ if (typeof NProgress != 'undefined') {
   }); 
   
 
-
-    </script>	
+ 
+     </script>
   </body>
-</html> 
+</html>

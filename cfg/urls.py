@@ -30,5 +30,7 @@ urlpatterns = [
     url(r'^login_sakhi/$', views.login_sakhi),
     url(r'^sakhi_dashboard/$', views.sakhi_dashboard),
     url(r'^order_complete/(\d+)/', views.order_complete),
-    url(r'^gruh_dashboard/', views.gruh_dashboard),
+    url(r'^gruh_dashboard_1/', views.gruh_dashboard_1),
+    url(r'^gruh_dashboard_2/', views.gruh_dashboard_2),
+    url(r'^gruh_dashboard_3/', views.gruh_dashboard_3),
 ]

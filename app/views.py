@@ -64,7 +64,7 @@ def get_location(request,sakhi_user,id):
 			sakhi.lat = lat
 			sakhi.lng = lng
 			sakhi.save()
-			return HttpResponseRedirect('/admin')
+			return HttpResponseRedirect('/sakhi_dashboard/')
 		else:
 			lat = request.POST.get('glat')
 			lng = request.POST.get('glng')
@@ -72,7 +72,7 @@ def get_location(request,sakhi_user,id):
 			customer.lat = lat
 			customer.lng = lng
 			customer.save()
-			return HttpResponseRedirect('/admin')
+			return HttpResponseRedirect('/customer-order/')
 	else:
 		url_to_post = '/getlocation/' + str(sakhi_user) + '/' + str(id) + '/'
 		return render(request,'get_location.html',{'url_to_post':url_to_post})
@@ -260,7 +260,7 @@ def order_complete(request,order_id):
 	order.save()
 	return HttpResponseRedirect('/sakhi_dashboard/')
 
-def gruh_dashboard(request):
+def gruh_dashboard_1(request):
 	if request.user.is_authenticated():
 		username = request.user.username
 		if username == 'admin':
@@ -281,6 +281,47 @@ def gruh_dashboard(request):
 					js_array[4]+=1
 			#return render(request,'chart_trial.html')
 			return render(request,'gruh_dashboard_1.html',{'js_array':js_array})
+def gruh_dashboard_2(request):
+	if request.user.is_authenticated():
+		username = request.user.username
+		if username == 'admin':
+			return render(request,'gruh_dashboard_2.html')
+def gruh_dashboard_3(request):
+	if request.user.is_authenticated():
+		username = request.user.username
+		if username == 'admin':
+			sakhis = Sakhi.objects.all()
+			orders = Order.objects.all()
+			sakhi_dict = {}
+			sakhi_name = []
+			mari = []
+			nachni = []
+			oat = []  
+			for order in orders:
+				sakhi = Sakhi.objects.get(id=order.placed_by)
+				sakhi_username = str(sakhi.user.username)
+				print sakhi_username
+				if sakhi_username in sakhi_dict:
+					print type(sakhi_dict)
+					sakhi_dict[sakhi_username][0]+=order.mari
+					sakhi_dict[sakhi_username][1]+=order.nachni
+					sakhi_dict[sakhi_username][2]+=order.oat
+				else:
+					sakhi_dict[sakhi_username] = [order.mari,order.nachni,order.oat]
+				print len(sakhi_dict)
+			for key in sakhi_dict:
+				sakhi_name.append(key)
+				mari.append(sakhi_dict[key][0])
+				nachni.append(sakhi_dict[key][1])
+				oat.append(sakhi_dict[key][2])
+			print sakhi_name
+			print mari
+			print nachni
+			print oat
+			return render(request,'gruh_dashboard_3.html',{'sakhi_name':sakhi_name,'mari':mari,'nachni':nachni,'oat':oat})
+
+	
+
 '''
 def get_sms(request):
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 
