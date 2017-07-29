@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from twilio.rest import TwilioRestClient
+
 # Create your views here.
 
 def hello_world(request):
@@ -21,8 +22,13 @@ def sms(request):
 def register_sakhi(request):
 	if request.method == 'POST':
 		name =  request.POST.get('name')
-		passsword = request.POST.get('passsword')
-		return HttpResponse(name)
+		password = request.POST.get('password')
+		username = request.POST.get('email')
+		print username
+		user = User.objects.create_user(username=username,password=password,first_name=name)
+		user.set_password(password)
+		user.save()
+		return HttpResponseRedirect('/admin')
 	else:
 		return render(request,'sakhi_register.html')
 
