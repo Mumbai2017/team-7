@@ -43,3 +43,4 @@ class Distance(models.Model):
 	sakhi_lat = models.CharField(max_length=100,blank=True)
 	customer_lat = models.CharField(max_length=100,blank=True)
 	customer_lng = models.CharField(max_length=100,blank=True)
+	

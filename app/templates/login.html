@@ -1,7 +1,10 @@
-<html>
+{%load static%}
+    
+
+    <html>
 
     <head>
-		<link rel="stylesheet" href="registerstyle.css">
+		<link rel="stylesheet" href="{% static "registerstyle.css" %}">
         <script src="valid.js"></script>
 		<title>Login</title>
     </head>
@@ -14,14 +17,12 @@
         
 		<div class="login" >
 			<h2>Enter Information</h2>
-			<form id="loginform" name="myform" action="menu.php" method="get">
+			 
+			<form id="loginform" name="myform" action="/login_sakhi/" method="POST">
+				{% csrf_token %}
 				<input type="text" name="username"  placeholder="Username">
 				<input type="password" name="password" placeholder="Password" >
 				<input type="submit" value="Submit">      
-				<h2 id="registerChecking">Haven't registerd yet?</h2>
-				<br>
-				<br>
-				<a id="registerNow" href=registration.html>Register Now</a>
 			</form>
         </div>
 	
