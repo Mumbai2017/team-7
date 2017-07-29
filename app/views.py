@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from twilio.rest import TwilioRestClient
-from models import Sakhi, Customer, Order
+from models import Sakhi, Customer, Order, Distance
 import re
 import urllib2
 import json
@@ -145,10 +145,15 @@ def match_order(request,order_id):
 	for sakhi in all_sakhis:
 		sakhi_lat = sakhi.lat
 		sakhi_lng = sakhi.lng
-		request_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+customer_lat+','+customer_lng+'&destinations='+sakhi_lat+','+sakhi_lng+'&key=AIzaSyDAwcnYHYw4He8TjQsxqKpEqIXNw08et4M'
-		response = urllib2.urlopen(request_url).read()
-		json_response = json.loads(response)
-		distance = json_response['rows'][0]['elements'][0]['duration']['value']
+		if Distance.objects.get(sakhi_id = sakhi.id,customer_id=customer_id).exists():
+			pass
+		else:
+			request_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+customer_lat+','+customer_lng+'&destinations='+sakhi_lat+','+sakhi_lng+'&key=AIzaSyDAwcnYHYw4He8TjQsxqKpEqIXNw08et4M'
+			response = urllib2.urlopen(request_url).read()
+			json_response = json.loads(response)
+			distance = json_response['rows'][0]['elements'][0]['duration']['value']
+			distance_obj = Distance.objects.create(sakhi_id=sakhi.id,customer_id=customer_id,distance=distance)
+		distances = Distance.objects.filter(customer_id=customer_id).order_by('distance')
 		print json_response
 		print distance
 	print customer_id
