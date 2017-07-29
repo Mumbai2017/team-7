@@ -259,11 +259,26 @@ def order_complete(request,order_id):
 	order.order_direction = 9
 	order.save()
 	return HttpResponseRedirect('/sakhi_dashboard/')
+
 def gruh_dashboard(request):
 	if request.user.is_authenticated():
 		username = request.user.username
 		if username == 'admin':
-			js_array = [1,2,4,5,6]
+			orders = Order.objects.all()
+			js_array = [0,0,0,0,0]
+			for order in orders:
+				if order.order_direction == -1:
+					js_array[0]+=1
+				elif order.order_direction == 1:
+					js_array[1]+=1
+				elif order.order_direction == 2:
+					js_array[2]+=1
+				elif order.order_direction == 3:
+					js_array[3]+=1
+				elif order.order_direction == 3:
+					js_array[3]+=1
+				else:
+					js_array[4]+=1
 			#return render(request,'chart_trial.html')
 			return render(request,'gruh_dashboard_1.html',{'js_array':js_array})
 '''
