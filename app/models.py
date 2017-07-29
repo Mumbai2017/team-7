@@ -39,3 +39,7 @@ class Distance(models.Model):
 	distance = models.IntegerField(default=5000000)
 	customer_addr = models.CharField(max_length=500)
 	sakhi_addr = models.CharField(max_length=500)
+	sakhi_lng = models.CharField(max_length=100,blank=True)
+	sakhi_lat = models.CharField(max_length=100,blank=True)
+	customer_lat = models.CharField(max_length=100,blank=True)
+	customer_lng = models.CharField(max_length=100,blank=True)

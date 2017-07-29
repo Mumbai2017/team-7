@@ -185,7 +185,7 @@ def match_order(request,order_id):
 		message_to_send = 'You have an order for ' + str(order.nachni) + ' khaakhra to ' + str(distance_obj_of_order.customer_addr) + ' order id = ' + str(order.id) + ' 1 to deliver 2 to collect 3 to no '
 		send_sms(sakhi_with_order.phone,message_to_send)
 		order_status_url = '/order_status/'+str(order.id) +'/'
-		return render(request,order_status_url)
+		return HttpResponseRedirect(order_status_url)
 def send_sms(number,message):
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 
 	AUTH_TOKEN = "3d508103252df724e85bb633c0455851" 
@@ -206,13 +206,16 @@ def order_status(request,order_id):
 	status_of_order = ''
 	order_direction = order.order_direction
 	print order_direction
+	if order_direction == -1:
+		status_of_order = 'Order yet to be seen by the sakhi. Kindly be patient.'
 	if order_direction == 1:
 		status_of_order = 'Order approved. Sakhi will deliver it'
 	if order_direction == 2:
 		status_of_order = 'Order approved. Collect it from the sakhi'
 	if order_direction == 3:
 		status_of_order = 'Order redirected. We will reassign a new sakhi and notify you'
-
+	if order_direction == 9:
+		status_of_order = 'Order fullfilled. Thank you!'
 	sakhi_addr = distance.sakhi_addr
 	assigned_with = sakhi.user.first_name
 	order_by = customer.user.first_name
