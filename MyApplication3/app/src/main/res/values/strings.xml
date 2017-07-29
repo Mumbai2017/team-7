@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">My Application</string>
+
+    <string name="khakara_prompt">Choose a Khakara Flavour</string>
+
+    <string-array name="khakara_type">
+        <item>Breakfast</item>
+        <item>Methi Masala</item>
+        <item>Dahi Bajiri Methi</item>
+        <item>Nachani</item>
+        <item>Jeera</item>
+        <item>Peppery Oats</item>
+        <item>Khichadi</item>
+        <item>Low Calorie</item>
+        <item>Punjabi Masala</item>
+    </string-array>
+</resources>
