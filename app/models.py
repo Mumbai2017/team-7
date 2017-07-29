@@ -30,7 +30,10 @@ class Order(models.Model):
 	mari = models.IntegerField(default=0)
 	oat = models.IntegerField(default=0)
 	urgent = models.IntegerField(default=-1)
+	order_direction = models.IntegerField(default=-1)
 class Distance(models.Model):
 	sakhi_id = models.IntegerField()
 	customer_id = models.IntegerField()
 	distance = models.IntegerField(default=5000000)
+	customer_addr = models.CharField(max_length=500)
+	sakhi_addr = models.CharField(max_length=500)

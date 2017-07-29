@@ -154,15 +154,36 @@ def match_order(request,order_id):
 			response = urllib2.urlopen(request_url).read()
 			json_response = json.loads(response)
 			distance = json_response['rows'][0]['elements'][0]['duration']['value']
-			distance_obj = Distance.objects.create(sakhi_id=sakhi.id,customer_id=customer_id,distance=distance)
-			
+			customer_addr = json_response['origin_addresses'][0]
+			sakhi_addr = json_response['destination_addresses'][0]
+			distance_obj = Distance.objects.create(sakhi_id=sakhi.id,customer_id=customer_id,distance=distance,customer_addr=customer_addr,sakhi_addr=sakhi_addr)
+			distance_obj.save()
 	distances = Distance.objects.filter(customer_id=customer_id).order_by('distance')
+	sakhi_with_order = ''
+	distance_obj_of_order = ''
 	for distance in distances:
 		sakhi = Sakhi.objects.get(id = distance.sakhi_id)
 		if sakhi.mari >= order.mari and sakhi.nachni >= order.nachni and sakhi.oat >= order.oat: 
 			order.placed_from = sakhi.id
-	return HttpResponse('lol')
-
+			order.save()
+			distance_obj_of_order = distance
+			sakhi_with_order = sakhi
+			break
+	if order.placed_from == -1:
+		return HttpResponseRedirect('SORRY FOUND NO Sakhi')
+	else:
+		message_to_send = 'You have an order for ' + str(order.nachni) + ' khaakhra to ' + distance_obj_of_order.customer_addr + ' order id = ' + order.id + ' 1 to deliver 2 to collect 3 to no '
+		#send_sms(sakhi_with_order.phone,message_to_send)
+		return render('sakhi order placed')
+def send_sms(number,message):
+	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 
+	AUTH_TOKEN = "3d508103252df724e85bb633c0455851" 
+ 	client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN) 
+ 	client.messages.create(
+    to=number, 
+    from_="+14154298601 ", 
+    body=message,
+	)
 
 '''
 def get_sms(request):
