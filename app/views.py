@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from twilio.rest import TwilioRestClient
-from models import Sakhi
+from models import Sakhi, Customer
 # Create your views here.
 
 def hello_world(request):
@@ -30,7 +30,8 @@ def register_sakhi(request):
 		user.save()
 		sakhi = Sakhi.objects.create(user=user)
 		sakhi.save()
-		return HttpResponseRedirect('/getlocation')
+		redirect_url = '/getlocation/' + str(1) + '/' + str(sakhi.id) + '/'
+		return HttpResponseRedirect(redirect_url)
 	else:
 		return render(request,'sakhi_register.html')
 def register_user(request):
@@ -41,12 +42,33 @@ def register_user(request):
 		user = User.objects.create_user(username=username,password=password,first_name=name)
 		user.set_password(password)
 		user.save()
-		return HttpResponseRedirect('/admin')
+		customer = Customer.objects.create(user=user)
+		customer.save()
+		redirect_url = '/getlocation/' + str(0) + '/' + str(customer.id) + '/'
+		return HttpResponseRedirect(redirect_url)
 	else:
 		return render(request,'register_user.html')
 def get_location(request,sakhi_user,id):
-	if sakhi_user == 1:
-		pass
+	if request.method == 'POST':
+		if sakhi_user == str(1):
+			lat = request.POST.get('glat')
+			lng = request.POST.get('glng')
+			sakhi = Sakhi.objects.get(id=id)
+			sakhi.lat = lat
+			sakhi.lng = lng
+			sakhi.save()
+			return HttpResponseRedirect('/admin')
+		else:
+			lat = request.POST.get('glat')
+			lng = request.POST.get('glng')
+			customer = Customer.objects.get(id=id)
+			customer.lat = lat
+			customer.lng = lng
+			customer.save()
+			return HttpResponseRedirect('/admin')
+	else:
+		url_to_post = '/getlocation/' + str(sakhi_user) + '/' + str(id) + '/'
+		return render(request,'get_location.html',{'url_to_post':url_to_post})
 
 
 '''

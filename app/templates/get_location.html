@@ -137,7 +137,7 @@
         <input id="pac-input" type="text"
             placeholder="Enter a location">
       </div>
-      <form method="POST" action="/getlocation/">
+      <form method="POST" action={{url_to_post}}>
           {% csrf_token %}
           <button class="btn btn-primary" id="gbtn"> <input type="submit" action="www.google.com"/> </button>
           <input type = "hidden" id="glat" name="glat" value="" />
