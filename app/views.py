@@ -235,7 +235,7 @@ def sakhi_dashboard(request):
 		oat = sakhi.oat
 		nachni = sakhi.nachni
 		mari = sakhi.mari
-		return render(request,'sakhi_dashboard.html')
+		return render(request,'sakhi_dashboard.html',{'mari':mari,'nachni':nachni,'oat':oat,'orders':orders})
 
 def give_sakhi_directions(sakhi_id,distance_id):
 	pass

@@ -12,13 +12,16 @@ class Sakhi(models.Model):
 	nachni = models.IntegerField(default=0,blank=True)
 	mari = models.IntegerField(default=0,blank=True)
 	oat = models.IntegerField(default=0,blank=True)
+	def __str__(self):
+		return str(self.user.username)
 class Customer(models.Model):
 	user = models.OneToOneField(User)
 	phone = models.CharField(max_length=100,blank=True)
 	lat = models.CharField(max_length=100,blank=True)
 	lng = models.CharField(max_length=100,blank=True)
 	pending_order_id = models.IntegerField(default=0)
-
+	def __str__(self):
+		return str(self.user.username)
 class Gruh(models.Model):
 	nachni = models.IntegerField(default=0)
 	mari = models.IntegerField(default=0)
@@ -43,4 +46,3 @@ class Distance(models.Model):
 	sakhi_lat = models.CharField(max_length=100,blank=True)
 	customer_lat = models.CharField(max_length=100,blank=True)
 	customer_lng = models.CharField(max_length=100,blank=True)
-	
