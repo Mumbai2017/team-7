@@ -23,4 +23,10 @@ class Gruh(models.Model):
 	nachni = models.IntegerField(default=0)
 	mari = models.IntegerField(default=0)
 	oat = models.IntegerField(default=0)
+class Order(models.Model):
+	placed_by = models.IntegerField()
+	placed_from = models.IntegerField()
+	nachni = models.IntegerField(default=0)
+	mari = models.IntegerField(default=0)
+	oat = models.IntegerField(default=0)
 
