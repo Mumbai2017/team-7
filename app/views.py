@@ -296,7 +296,8 @@ def gruh_dashboard_3(request):
 			sakhi_name = []
 			mari = []
 			nachni = []
-			oat = []  
+			oat = []
+			total = []  
 			for order in orders:
 				sakhi = Sakhi.objects.get(id=order.placed_by)
 				sakhi_username = str(sakhi.user.username)
@@ -314,10 +315,14 @@ def gruh_dashboard_3(request):
 				mari.append(sakhi_dict[key][0])
 				nachni.append(sakhi_dict[key][1])
 				oat.append(sakhi_dict[key][2])
-			print sakhi_name
-			print mari
-			print nachni
-			print oat
+				total.append(sakhi_dict[key][0]+sakhi_dict[key][1]+sakhi_dict[key][2])
+			#zipped = zip(total,sakhi_name,mari,nachni,oat)
+			#sorted_zipped = zipped.sort(reverse=True)
+			total,sakhi_name,mari,nachni,oat = zip(*sorted(zip(total,sakhi_name,mari,nachni,oat),reverse=True))	
+			sakhi_name = list(sakhi_name)
+			mari = list(mari)
+			nachni = list(nachni)
+			oat = list(oat)
 			return render(request,'gruh_dashboard_3.html',{'sakhi_name':sakhi_name,'mari':mari,'nachni':nachni,'oat':oat})
 
 	
