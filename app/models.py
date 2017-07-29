@@ -31,6 +31,8 @@ class Order(models.Model):
 	oat = models.IntegerField(default=0)
 	urgent = models.IntegerField(default=-1)
 	order_direction = models.IntegerField(default=-1)
+	def __str__(self):
+		return str(self.id)
 class Distance(models.Model):
 	sakhi_id = models.IntegerField()
 	customer_id = models.IntegerField()

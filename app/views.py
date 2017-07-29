@@ -83,7 +83,7 @@ def recieve_sms(request):
 	order_mari_regex = re.compile('\d+ order (\d\d?) mari')
 	order_oat_regex = re.compile('\d+ order (\d\d?) oat')
 	order_nachni_regex = re.compile('\d+ order (\d\d?) nachni')
-
+	order_status_regex = re.compile('\d+ order (\d+) direction (\d)')
 
 	if request.method == 'GET':
 		sms_body  = request.GET.get('Body')
@@ -113,6 +113,16 @@ def recieve_sms(request):
 			new_nachni = sakhi.nachni+ int(quantity)
 			sakhi.nachni = new_nachni
 			sakhi.save()
+		if order_status_regex.match(sms_body.strip()):
+			print 'HAHAHAHAHAH'
+			order_parse = re.search(order_status_regex, sms_body.strip())
+			order_id = order_parse.group(1)
+			print order_id
+			order_direction = order_parse.group(2)
+			print order_direction
+			order = Order.objects.get(id=order_id)
+			order.order_direction = order_direction
+			order.save()
 
 def customer_order(request):
 	if request.user.is_authenticated():
@@ -153,7 +163,8 @@ def match_order(request,order_id):
 			request_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+customer_lat+','+customer_lng+'&destinations='+sakhi_lat+','+sakhi_lng+'&key=AIzaSyDAwcnYHYw4He8TjQsxqKpEqIXNw08et4M'
 			response = urllib2.urlopen(request_url).read()
 			json_response = json.loads(response)
-			distance = json_response['rows'][0]['elements'][0]['duration']['value']
+			print json_response
+			distance = json_response['rows'][0]['elements'][0]['distance']['value']
 			customer_addr = json_response['origin_addresses'][0]
 			sakhi_addr = json_response['destination_addresses'][0]
 			distance_obj = Distance.objects.create(sakhi_id=sakhi.id,customer_id=customer_id,distance=distance,customer_addr=customer_addr,sakhi_addr=sakhi_addr)
@@ -172,9 +183,9 @@ def match_order(request,order_id):
 	if order.placed_from == -1:
 		return HttpResponseRedirect('SORRY FOUND NO Sakhi')
 	else:
-		message_to_send = 'You have an order for ' + str(order.nachni) + ' khaakhra to ' + distance_obj_of_order.customer_addr + ' order id = ' + order.id + ' 1 to deliver 2 to collect 3 to no '
-		#send_sms(sakhi_with_order.phone,message_to_send)
-		return render('sakhi order placed')
+		message_to_send = 'You have an order for ' + str(order.nachni) + ' khaakhra to ' + str(distance_obj_of_order.customer_addr) + ' order id = ' + str(order.id) + ' 1 to deliver 2 to collect 3 to no '
+		send_sms(sakhi_with_order.phone,message_to_send)
+		return HttpResponse('sakhi order placed')
 def send_sms(number,message):
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 
 	AUTH_TOKEN = "3d508103252df724e85bb633c0455851" 
