@@ -137,6 +137,7 @@ def customer_order(request):
 		else:
 			return render(request,'customer_order.html')
 def match_order(request,order_id):
+	order = Order.objects.get(id=order_id)
 	all_sakhis = Sakhi.objects.all()
 	customer_id = Order.objects.get(id=order_id).placed_by
 	customer = Customer.objects.get(id=customer_id)
@@ -145,7 +146,8 @@ def match_order(request,order_id):
 	for sakhi in all_sakhis:
 		sakhi_lat = sakhi.lat
 		sakhi_lng = sakhi.lng
-		if Distance.objects.get(sakhi_id = sakhi.id,customer_id=customer_id).exists():
+		sakhi_id = sakhi.id
+		if Distance.objects.filter(sakhi_id = sakhi_id,customer_id=customer_id).exists():
 			pass
 		else:
 			request_url = 'https://maps.googleapis.com/maps/api/distancematrix/json?origins='+customer_lat+','+customer_lng+'&destinations='+sakhi_lat+','+sakhi_lng+'&key=AIzaSyDAwcnYHYw4He8TjQsxqKpEqIXNw08et4M'
@@ -153,10 +155,12 @@ def match_order(request,order_id):
 			json_response = json.loads(response)
 			distance = json_response['rows'][0]['elements'][0]['duration']['value']
 			distance_obj = Distance.objects.create(sakhi_id=sakhi.id,customer_id=customer_id,distance=distance)
-		distances = Distance.objects.filter(customer_id=customer_id).order_by('distance')
-		print json_response
-		print distance
-	print customer_id
+			
+	distances = Distance.objects.filter(customer_id=customer_id).order_by('distance')
+	for distance in distances:
+		sakhi = Sakhi.objects.get(id = distance.sakhi_id)
+		if sakhi.mari >= order.mari and sakhi.nachni >= order.nachni and sakhi.oat >= order.oat: 
+			order.placed_from = sakhi.id
 	return HttpResponse('lol')
 
 
