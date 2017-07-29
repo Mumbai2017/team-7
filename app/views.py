@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from twilio.rest import TwilioRestClient
-from models import Sakhi, Customer
+from models import Sakhi, Customer, Order
 import re
 # Create your views here.
 
@@ -112,7 +112,28 @@ def recieve_sms(request):
 			sakhi.nachni = new_nachni
 			sakhi.save()
 
-#def 
+def customer_order(request):
+	if request.user.is_authenticated():
+		if request.method == 'POST':
+			user = request.user
+			customer = Customer.objects.get(user=user)
+			order_type = request.POST.get('type')
+			mari = request.POST.get('mari')
+			nachni = request.POST.get('nachni')
+			oat = request.POST.get('oats')
+			urgent_status = request.POST.get('delivery')
+			print mari
+			print oat
+			print nachni
+			if urgent_status == 'urgent':
+				order = Order.objects.create(nachni=nachni,oat=oat,mari=mari,urgent=1,placed_by=customer.id,placed_from=-1)
+			else:
+				order = Order.objects.create(nachni=nachni,oat=oat,mari=mari,urgent=0,placed_by=customer.id,placed_from=-1)
+
+		else:
+			return render(request,'customer_order.html')
+
+
 '''
 def get_sms(request):
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 

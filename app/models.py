@@ -25,8 +25,9 @@ class Gruh(models.Model):
 	oat = models.IntegerField(default=0)
 class Order(models.Model):
 	placed_by = models.IntegerField()
-	placed_from = models.IntegerField()
+	placed_from = models.IntegerField(blank=True,null=True)
 	nachni = models.IntegerField(default=0)
 	mari = models.IntegerField(default=0)
 	oat = models.IntegerField(default=0)
+	urgent = models.IntegerField(default=-1)
 
