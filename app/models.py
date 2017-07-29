@@ -6,6 +6,7 @@ from django.db import models
 # Create your models here.
 class Sakhi(models.Model):
 	user = models.OneToOneField(User)
+	phone = models.CharField(max_length=100,blank=True)
 	lat = models.CharField(max_length=100,blank=True)
 	lng = models.CharField(max_length=100,blank=True)
 	nachni = models.IntegerField(default=0,blank=True)
@@ -13,8 +14,13 @@ class Sakhi(models.Model):
 	oat = models.IntegerField(default=0,blank=True)
 class Customer(models.Model):
 	user = models.OneToOneField(User)
+	phone = models.CharField(max_length=100,blank=True)
 	lat = models.CharField(max_length=100,blank=True)
 	lng = models.CharField(max_length=100,blank=True)
 	pending_order_id = models.IntegerField(default=0)
-	
+
+class Gruh(models.Model):
+	nachni = models.IntegerField(default=0)
+	mari = models.IntegerField(default=0)
+	oat = models.IntegerField(default=0)
 

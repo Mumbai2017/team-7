@@ -1,8 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login, logout
 from twilio.rest import TwilioRestClient
 from models import Sakhi, Customer
+import re
 # Create your views here.
 
 def hello_world(request):
@@ -24,11 +26,12 @@ def register_sakhi(request):
 		name =  request.POST.get('name')
 		password = request.POST.get('password')
 		username = request.POST.get('email')
-		print username
+		phone = request.POST.get('mobile')
 		user = User.objects.create_user(username=username,password=password,first_name=name)
 		user.set_password(password)
 		user.save()
-		sakhi = Sakhi.objects.create(user=user)
+		login(request,user)
+		sakhi = Sakhi.objects.create(user=user,phone=phone)
 		sakhi.save()
 		redirect_url = '/getlocation/' + str(1) + '/' + str(sakhi.id) + '/'
 		return HttpResponseRedirect(redirect_url)
@@ -39,10 +42,12 @@ def register_user(request):
 		name =  request.POST.get('name')
 		password = request.POST.get('password')
 		username = request.POST.get('email')
+		phone = request.POST.get('mobile')	 
 		user = User.objects.create_user(username=username,password=password,first_name=name)
 		user.set_password(password)
 		user.save()
-		customer = Customer.objects.create(user=user)
+		login(request,user)
+		customer = Customer.objects.create(user=user,phone=phone)
 		customer.save()
 		redirect_url = '/getlocation/' + str(0) + '/' + str(customer.id) + '/'
 		return HttpResponseRedirect(redirect_url)
@@ -71,6 +76,43 @@ def get_location(request,sakhi_user,id):
 		return render(request,'get_location.html',{'url_to_post':url_to_post})
 
 
+def recieve_sms(request):
+	
+	order_mari_regex = re.compile('\d+ order (\d\d?) mari')
+	order_oat_regex = re.compile('\d+ order (\d\d?) oat')
+	order_nachni_regex = re.compile('\d+ order (\d\d?) nachni')
+
+
+	if request.method == 'GET':
+		sms_body  = request.GET.get('Body')
+		sms_sender = request.GET.get('From')
+		sms_id = request.GET.get('SmsSid')		
+		
+		if order_mari_regex.match(sms_body.strip()):	
+			sakhi = Sakhi.objects.get(phone=sms_sender)
+			quantity_search = re.search(order_mari_regex, sms_body.strip())
+			quantity = quantity_search.group(1)
+			new_mari = sakhi.mari+ int(quantity)
+			sakhi.mari = new_mari
+			sakhi.save()
+
+		if order_oat_regex.match(sms_body.strip()):
+			sakhi = Sakhi.objects.get(phone=sms_sender)
+			quantity_search = re.search(order_oat_regex, sms_body.strip())
+			quantity = quantity_search.group(1)
+			new_oat = sakhi.oat+ int(quantity)
+			sakhi.oat = new_oat
+			sakhi.save()	
+
+		if order_oat_regex.match(sms_body.strip()):
+			sakhi = Sakhi.objects.get(phone=sms_sender)
+			quantity_search = re.search(order_nachni_regex, sms_body.strip())
+			quantity = quantity_search.group(1)
+			new_nachni = sakhi.nachni+ int(quantity)
+			sakhi.nachni = new_nachni
+			sakhi.save()
+
+#def 
 '''
 def get_sms(request):
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 
