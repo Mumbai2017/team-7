@@ -31,6 +31,19 @@ def register_sakhi(request):
 		return HttpResponseRedirect('/admin')
 	else:
 		return render(request,'sakhi_register.html')
+def register_user(request):
+	if request.method == 'POST':
+		name =  request.POST.get('name')
+		password = request.POST.get('password')
+		username = request.POST.get('email')
+		print username
+		user = User.objects.create_user(username=username,password=password,first_name=name)
+		user.set_password(password)
+		user.save()
+		return HttpResponseRedirect('/admin')
+	else:
+		return render(request,'register_user.html')
+
 
 '''
 def get_sms(request):
