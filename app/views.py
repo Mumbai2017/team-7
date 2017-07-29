@@ -259,6 +259,13 @@ def order_complete(request,order_id):
 	order.order_direction = 9
 	order.save()
 	return HttpResponseRedirect('/sakhi_dashboard/')
+def gruh_dashboard(request):
+	if request.user.is_authenticated():
+		username = request.user.username
+		if username == 'admin':
+			js_array = [1,2,4,5,6]
+			#return render(request,'chart_trial.html')
+			return render(request,'gruh_dashboard_1.html',{'js_array':js_array})
 '''
 def get_sms(request):
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 
