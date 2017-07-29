@@ -377,28 +377,50 @@
                       The Buttons extension for DataTables provides a common set of options, API methods and styling to display buttons on a page that will interact with a DataTable. The core library provides the based framework upon which plug-ins can built.
                     </p>
                     <table id="datatable-buttons" class="table table-striped table-bordered">
+                      
                       <thead>
                         <tr>
-                          <th>Name</th>
-                          <th>Position</th>
-                          <th>Office</th>
-                          <th>Age</th>
-                          <th>Start date</th>
-                          <th>Salary</th>
+                          <th>Order status</th>
+                          <th>Nachni</th>
+                          <th>Mari</th>
+                          <th>Oat</th>
+                          <th>Urgent?</th>
+                          <th>Order information</th>
+                          <th> Click here to mark as completed </th>
                         </tr>
                       </thead>
-
-
                       <tbody>
+                        {%for order in orders%}
                         <tr>
-                          <td>Tiger Nixon</td>
-                          <td>System Architect</td>
-                          <td>Edinburgh</td>
-                          <td>61</td>
-                          <td>2011/04/25</td>
-                          <td>$320,800</td>
+                          {%if order.order_direction == -1%}
+                          <td>Order not approved by you</td>
+                          {%endif%}
+                          {%if order.order_direction == 1%}
+                          <td>You will deliver</td>
+                          {%endif%}
+                          {%if order.order_direction == 2%}
+                          <td>Customer will collect</td>
+                          {%endif%}
+                          {%if order.order_direction == 9%}
+                          <td>Order completed</td>
+                          {%endif%}
+                          <td>{{order.nachni}}</td>
+                          <td>{{order.mari}}</td>
+                          <td>{{order.oat}}</td>
+                          {%if order.urgent == 1%}
+                          <td>Urgent order</td>
+                          {%endif%}
+                          {%if order.urgent == 0%}
+                          <td>Not urgent order</td>
+                          {%endif%}
+                          <td>
+                            <a style="color:blue" href="/order_status/{{order.id}}/">Order information</a>
+                          </td>
+                          <td>
+                            <a style="color:blue" href="/order_complete/{{order.id}}/">Mark as complete</a>
+                          </td>
                         </tr>
-                        
+                        {%endfor%}
                       </tbody>
                     </table>
                   </div>

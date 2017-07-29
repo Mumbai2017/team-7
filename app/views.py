@@ -224,7 +224,9 @@ def order_status(request,order_id):
 	assigned_with = sakhi.user.first_name
 	order_by = customer.user.first_name
 	sakhi_phone = sakhi.phone
-	return render(request,'order_placed.html',{'status_of_order':status_of_order,'sakhi_addr':sakhi_addr,'assigned_with':assigned_with,'order_by':order_by,'sakhi_phone':sakhi_phone})
+	customer_addr = distance.customer_addr
+	customer_phone = customer.phone
+	return render(request,'order_placed.html',{'status_of_order':status_of_order,'sakhi_addr':sakhi_addr,'assigned_with':assigned_with,'order_by':order_by,'sakhi_phone':sakhi_phone,'customer_addr':customer_addr,'customer_phone':customer_phone})
 
 def sakhi_dashboard(request):
 	if request.user.is_authenticated():
@@ -252,7 +254,11 @@ def login_sakhi(request):
 	else:
 		return render(request,'login.html')
 
-
+def order_complete(request,order_id):
+	order = Order.objects.get(id=order_id)
+	order.order_direction = 9
+	order.save()
+	return HttpResponseRedirect('/sakhi_dashboard/')
 '''
 def get_sms(request):
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 

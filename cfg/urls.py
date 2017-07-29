@@ -29,4 +29,5 @@ urlpatterns = [
     url(r'^order_status/(\d+)/$', views.order_status),
     url(r'^login_sakhi/$', views.login_sakhi),
     url(r'^sakhi_dashboard/$', views.sakhi_dashboard),
+    url(r'^order_complete/(\d+)/', views.order_complete),
 ]
