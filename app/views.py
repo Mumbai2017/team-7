@@ -114,7 +114,6 @@ def recieve_sms(request):
 			sakhi.nachni = new_nachni
 			sakhi.save()
 		if order_status_regex.match(sms_body.strip()):
-			print 'HAHAHAHAHAH'
 			order_parse = re.search(order_status_regex, sms_body.strip())
 			order_id = order_parse.group(1)
 			print order_id
@@ -185,7 +184,8 @@ def match_order(request,order_id):
 	else:
 		message_to_send = 'You have an order for ' + str(order.nachni) + ' khaakhra to ' + str(distance_obj_of_order.customer_addr) + ' order id = ' + str(order.id) + ' 1 to deliver 2 to collect 3 to no '
 		send_sms(sakhi_with_order.phone,message_to_send)
-		return HttpResponse('sakhi order placed')
+		order_status_url = '/order_status/'+str(order.id) +'/'
+		return render(request,order_status_url)
 def send_sms(number,message):
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 
 	AUTH_TOKEN = "3d508103252df724e85bb633c0455851" 
@@ -195,6 +195,37 @@ def send_sms(number,message):
     from_="+14154298601 ", 
     body=message,
 	)
+
+def order_status(request,order_id):
+	order = Order.objects.get(id=order_id)
+	sakhi_id = order.placed_from
+	sakhi = Sakhi.objects.get(id=sakhi_id)
+	customer_id = order.placed_by
+	customer = Customer.objects.get(id=customer_id)
+	distance = Distance.objects.get(customer_id=customer_id,sakhi_id=sakhi_id)
+	status_of_order = ''
+	order_direction = order.order_direction
+	print order_direction
+	if order_direction == 1:
+		status_of_order = 'Order approved. Sakhi will deliver it'
+	if order_direction == 2:
+		status_of_order = 'Order approved. Collect it from the sakhi'
+	if order_direction == 3:
+		status_of_order = 'Order redirected. We will reassign a new sakhi and notify you'
+
+	sakhi_addr = distance.sakhi_addr
+	assigned_with = sakhi.user.first_name
+	order_by = customer.user.first_name
+	sakhi_phone = sakhi.phone
+	return render(request,'order_placed.html',{'status_of_order':status_of_order,'sakhi_addr':sakhi_addr,'assigned_with':assigned_with,'order_by':order_by,'sakhi_phone':sakhi_phone})
+
+def sakhi_dashboard(request,order_id):
+	if request.user.is_authenticated():
+		user = request.user
+		sakhi = Sakhi.objects.get(user=user)
+		pass
+
+
 
 '''
 def get_sms(request):

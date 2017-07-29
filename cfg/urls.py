@@ -26,4 +26,5 @@ urlpatterns = [
     url(r'^getlocation/(\d+)/(\d+)/$', views.get_location),
     url(r'^customer-order/$', views.customer_order),
     url(r'^match_order/(\d+)/$', views.match_order),
+    url(r'^order_status/(\d+)/$', views.order_status),
 ]
