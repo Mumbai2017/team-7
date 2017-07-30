@@ -350,7 +350,8 @@ def gruh_dashboard_3(request):
 			oat = []
 			total = []  
 			for order in orders:
-				sakhi = Sakhi.objects.get(id=order.placed_by)
+				print order.id
+				sakhi = Sakhi.objects.get(id=order.placed_from)
 				sakhi_username = str(sakhi.user.username)
 				print sakhi_username
 				if sakhi_username in sakhi_dict:
@@ -376,6 +377,7 @@ def gruh_dashboard_3(request):
 			oat = list(oat)
 			return render(request,'gruh_dashboard_3.html',{'sakhi_name':sakhi_name,'mari':mari,'nachni':nachni,'oat':oat})
 def update_inventory(request):
+	user = request.user
 	if request.method == 'POST':
 		user = request.user
 		if user.is_authenticated() and Sakhi.objects.filter(user=user).exists():
@@ -391,8 +393,11 @@ def update_inventory(request):
 			return HttpResponseRedirect('/sakhi_dashboard/')
 		else:
 			return HttpResponseRedirect('/login_sakhi/')
-	return render(request,'form.html')
-
+	else:
+		if user.is_authenticated() and Sakhi.objects.filter(user=user).exists():
+			return render(request,'update_inventory.html')
+		else:
+			return HttpResponseRedirect('/login_sakhi/')	
 def login_customer(request):
 	if request.method == 'POST':
 		username = request.POST.get('username')
