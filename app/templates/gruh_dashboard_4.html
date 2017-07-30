@@ -1,5 +1,4 @@
 {%load static%}
-\
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,7 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Chart JS Graph Examples | Gentelella Alela! by Colorlib</title>
+    <title>Moris JS Chart Examples | Gentelella Alela! by Colorlib</title>
 
     <!-- Bootstrap -->
     <link href="{% static "vendors/bootstrap/dist/css/bootstrap.min.css" %}" rel="stylesheet">
@@ -17,6 +16,8 @@
     <link href="{% static "vendors/font-awesome/css/font-awesome.min.css" %}" rel="stylesheet">
     <!-- NProgress -->
     <link href="{% static "vendors/nprogress/nprogress.css" %}" rel="stylesheet">
+    <!-- iCheck -->
+    <link href="{% static "vendors/iCheck/skins/flat/green.css" %}" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="{% static "build/css/custom.min.css" %}" rel="stylesheet">
@@ -149,9 +150,9 @@
               </div>
 
             </div>
-            <!-- sidebar menu -->
+            <!-- /sidebar menu -->
 
-            <!-- menu footer buttons -->
+            <!-- /menu footer buttons -->
             <div class="sidebar-footer hidden-small">
               <a data-toggle="tooltip" data-placement="top" title="Settings">
                 <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
@@ -166,7 +167,7 @@
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
-            <!-- menu footer buttons -->
+            <!-- /menu footer buttons -->
           </div>
         </div>
 
@@ -265,14 +266,14 @@
             </nav>
           </div>
         </div>
-        <!-- top navigation -->
+        <!-- /top navigation -->
 
         <!-- page content -->
         <div class="right_col" role="main">
           <div class="">
             <div class="page-title">
               <div class="title_left">
-                <h3>Her you can see the distribution flavor-wise</h3>
+                <h3>Morris Js</h3>
               </div>
 
               <div class="title_right">
@@ -287,13 +288,13 @@
               </div>
             </div>
 
-            <div class="clearfix"></div>
+       
 
-            <div class="row">
+              <!-- graph area -->
               <div class="col-md-12 col-sm-6 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Distribution<small>per order</small></h2>
+                    <h2>Graph area <small>Sessions</small></h2>
                     <ul class="nav navbar-right panel_toolbox">
                       <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                       </li>
@@ -311,27 +312,14 @@
                     </ul>
                     <div class="clearfix"></div>
                   </div>
-                  <div class="x_content">
-                    <canvas id="lineChart"></canvas>
+                  <div class="x_content2">
+                    <div id="graph_area" style="width:100%; height:300px;"></div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-        <!-- page content -->
+              <!-- /graph area -->
 
-        <!-- footer content -->
-        <footer>
-          <div class="pull-right">
-            Gentelella - Bootstrap Admin Template by <a href="https://colorlib.com">Colorlib</a>
-          </div>
-          <div class="clearfix"></div>
-        </footer>
-        <!-- footer content -->
-      </div>
-    </div>
-
+             
     <!-- jQuery -->
     <script src="{% static "vendors/jquery/dist/jquery.min.js" %}"></script>
     <!-- Bootstrap -->
@@ -340,8 +328,9 @@
     <script src="{% static "vendors/fastclick/lib/fastclick.js" %}"></script>
     <!-- NProgress -->
     <script src="{% static "vendors/nprogress/nprogress.js" %}"></script>
-    <!-- Chart.js -->
-    <script src="{% static "vendors/Chart.js/dist/Chart.min.js" %}"></script>
+    <!-- morris.js -->
+    <script src="{% static "vendors/raphael/raphael.min.js" %}"></script>
+    <script src="{% static "vendors/morris.js/morris.min.js" %}"></script>
 
     <!-- Custom Theme Scripts -->
     <!-- <script src="{% static "build/js/custom.min.js" %}"></script> -->
@@ -2520,9 +2509,9 @@ if (typeof NProgress != 'undefined') {
         var lineChart = new Chart(ctx, {
         type: 'line',
         data: {
-          labels: {{order_name|safe}},
+          labels: ["January", "February", "March", "April", "May", "June", "July"],
           datasets: [{
-          label: "mari",
+          label: "My First dataset",
           backgroundColor: "rgba(38, 185, 154, 0.31)",
           borderColor: "rgba(38, 185, 154, 0.7)",
           pointBorderColor: "rgba(38, 185, 154, 0.7)",
@@ -2530,9 +2519,9 @@ if (typeof NProgress != 'undefined') {
           pointHoverBackgroundColor: "#fff",
           pointHoverBorderColor: "rgba(220,220,220,1)",
           pointBorderWidth: 1,
-          data: {{mari}}
+          data: [31, 74, 6, 39, 20, 85, 7]
           }, {
-          label: "oat",
+          label: "My Second dataset",
           backgroundColor: "rgba(3, 88, 106, 0.3)",
           borderColor: "rgba(3, 88, 106, 0.70)",
           pointBorderColor: "rgba(3, 88, 106, 0.70)",
@@ -2540,20 +2529,8 @@ if (typeof NProgress != 'undefined') {
           pointHoverBackgroundColor: "#fff",
           pointHoverBorderColor: "rgba(151,187,205,1)",
           pointBorderWidth: 1,
-          data: {{oat}}
-          }
-          , {
-          label: "nachni",
-          backgroundColor: "rgba(88, 88, 106, 0.3)",
-          borderColor: "rgba(255,0,0,1)",
-          pointBorderColor: "rgba(3, 88, 106, 0.70)",
-          pointBackgroundColor: "rgba(3, 88, 106, 0.70)",
-          pointHoverBackgroundColor: "#fff",
-          pointHoverBorderColor: "rgba(151,187,205,1)",
-          pointBorderWidth: 1,
-          data: {{nachni}}
-          }
-          ]
+          data: [82, 23, 66, 9, 99, 4, 2]
+          }]
         },
         });
       
@@ -3039,7 +3016,7 @@ if (typeof NProgress != 'undefined') {
         Morris.Area({
           element: 'graph_area',
           data: [
-          {period: '2014 Q1', iphone: 2666, ipad: null, itouch: 2647},
+          {period: '2014 Q1', iphone: 10000, ipad: null, itouch: 2647},
           {period: '2014 Q2', iphone: 2778, ipad: 2294, itouch: 2441},
           {period: '2014 Q3', iphone: 4912, ipad: 1969, itouch: 2501},
           {period: '2014 Q4', iphone: 3767, ipad: 3597, itouch: 5689},
@@ -5428,6 +5405,6 @@ if (typeof NProgress != 'undefined') {
   
 
 
-    </script>	
+    </script>
   </body>
-</html> 
+</html>

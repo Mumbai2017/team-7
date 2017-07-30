@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from twilio.rest import TwilioRestClient
-from models import Sakhi, Customer, Order, Distance
+from models import Sakhi, Customer, Order, Distance, Gruh
 import re
 import urllib2
 import json
@@ -89,7 +89,7 @@ def recieve_sms(request):
 		sms_body  = request.GET.get('Body')
 		sms_sender = request.GET.get('From')
 		sms_id = request.GET.get('SmsSid')		
-		
+		print sms_sender
 		if order_mari_regex.match(sms_body.strip()):	
 			sakhi = Sakhi.objects.get(phone=sms_sender)
 			quantity_search = re.search(order_mari_regex, sms_body.strip())
@@ -283,9 +283,26 @@ def gruh_dashboard_1(request):
 			return render(request,'gruh_dashboard_1.html',{'js_array':js_array})
 def gruh_dashboard_2(request):
 	if request.user.is_authenticated():
+		
 		username = request.user.username
+		#gruh = Gruh.objects.get()
+		#gruh_mari = gruh.mari
+		#gruh_nachni = gruh.nachni
+		#gruh_oat = gruh.oat
+		#inventory = [gruh_mari,gruh_nachni,gruh_oat]
+		#khakhra_label = ['mari','nachni','oat']
 		if username == 'admin':
-			return render(request,'gruh_dashboard_2.html')
+			orders = Order.objects.all()
+			order_name = []
+			mari = []
+			nachni = []
+			oat = []
+			for order in orders:
+				order_name.append('Order no ' + str(order.id))
+				mari.append(order.mari)
+				nachni.append(order.nachni)
+				oat.append(order.oat)
+			return render(request,'gruh_dashboard_2.html',{'order_name':order_name ,'mari':mari,'nachni':nachni,'oat':oat})
 def gruh_dashboard_3(request):
 	if request.user.is_authenticated():
 		username = request.user.username
@@ -324,6 +341,7 @@ def gruh_dashboard_3(request):
 			nachni = list(nachni)
 			oat = list(oat)
 			return render(request,'gruh_dashboard_3.html',{'sakhi_name':sakhi_name,'mari':mari,'nachni':nachni,'oat':oat})
+
 
 	
 
