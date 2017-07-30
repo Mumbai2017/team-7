@@ -22,7 +22,6 @@ urlpatterns = [
     url(r'^hello/', views.hello_world),
     url(r'^registersakhi/', views.register_sakhi),
     url(r'^registeruser/', views.register_user),    
-    url(r'^registeruser/', views.register_user),
     url(r'^getlocation/(\d+)/(\d+)/$', views.get_location),
     url(r'^customer-order/$', views.customer_order),
     url(r'^match_order/(\d+)/$', views.match_order),

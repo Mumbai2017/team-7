@@ -309,8 +309,6 @@ def gruh_dashboard_1(request):
 					js_array[2]+=1
 				elif order.order_direction == 3:
 					js_array[3]+=1
-				elif order.order_direction == 3:
-					js_array[3]+=1
 				else:
 					js_array[4]+=1
 			#return render(request,'chart_trial.html')
@@ -411,7 +409,6 @@ def login_customer(request):
 	else:
 		return render(request,'login_customer.html')	
 
-'''
 def get_sms(request):
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 
 	AUTH_TOKEN = "3d508103252df724e85bb633c0455851" 
@@ -424,3 +421,13 @@ def get_sms(request):
  			print message.sid
  	return HttpResponse('HI!')
 '''
+
+def location_cluster(request):
+	distances = Distance.objects.all()
+	orders = Order.objects.all()
+	for order in orders:
+		sakhi_id = order.placed_from
+		customer_id = order.placed_by
+		distances = Distance.objects.get(sakhi_id=sakhi_id,customer_id=customer_id)
+
+'''		
