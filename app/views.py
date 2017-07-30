@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from django.shortcuts import render
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
@@ -84,13 +85,18 @@ def recieve_sms(request):
 	order_oat_regex = re.compile('\d+ order (\d\d?) oat')
 	order_nachni_regex = re.compile('\d+ order (\d\d?) nachni')
 	order_status_regex = re.compile('\d+ order (\d+) direction (\d)')
+	sell_nachni_regex = re.compile('\d+ sell (\d\d?) nachni')
+	sell_oat_regex = re.compile('\d+ sell (\d\d?) oat')
+	sell_mari_regex = re.compile('\d+ sell (\d\d?) mari')
 
 	if request.method == 'GET':
 		sms_body  = request.GET.get('Body')
 		sms_sender = request.GET.get('From')
 		sms_id = request.GET.get('SmsSid')		
 		print sms_sender
+		print sms_body
 		if order_mari_regex.match(sms_body.strip()):	
+			print 'match'
 			sakhi = Sakhi.objects.get(phone=sms_sender)
 			quantity_search = re.search(order_mari_regex, sms_body.strip())
 			quantity = quantity_search.group(1)
@@ -99,6 +105,7 @@ def recieve_sms(request):
 			sakhi.save()
 
 		if order_oat_regex.match(sms_body.strip()):
+			print 'match'
 			sakhi = Sakhi.objects.get(phone=sms_sender)
 			quantity_search = re.search(order_oat_regex, sms_body.strip())
 			quantity = quantity_search.group(1)
@@ -106,12 +113,37 @@ def recieve_sms(request):
 			sakhi.oat = new_oat
 			sakhi.save()	
 
-		if order_oat_regex.match(sms_body.strip()):
+		if order_nachni_regex.match(sms_body.strip()):
+			print 'match'
 			sakhi = Sakhi.objects.get(phone=sms_sender)
 			quantity_search = re.search(order_nachni_regex, sms_body.strip())
 			quantity = quantity_search.group(1)
 			new_nachni = sakhi.nachni+ int(quantity)
 			sakhi.nachni = new_nachni
+			sakhi.save()
+		if sell_nachni_regex.match(sms_body.strip()):
+			print 'match'
+			sakhi = Sakhi.objects.get(phone=sms_sender)
+			quantity_search = re.search(sell_nachni_regex, sms_body.strip())
+			quantity = quantity_search.group(1)
+			new_nachni = sakhi.nachni- int(quantity)
+			sakhi.nachni = new_nachni
+			sakhi.save()	
+		if sell_oat_regex.match(sms_body.strip()):
+			print 'match'
+			sakhi = Sakhi.objects.get(phone=sms_sender)
+			quantity_search = re.search(sell_oat_regex, sms_body.strip())
+			quantity = quantity_search.group(1)
+			new_oat = sakhi.oat- int(quantity)
+			sakhi.oat = new_oat
+			sakhi.save()	
+		if sell_mari_regex.match(sms_body.strip()):
+			print 'match'
+			sakhi = Sakhi.objects.get(phone=sms_sender)
+			quantity_search = re.search(sell_mari_regex, sms_body.strip())
+			quantity = quantity_search.group(1)
+			new_mari = sakhi.mari- int(quantity)
+			sakhi.mari = new_mari
 			sakhi.save()
 		if order_status_regex.match(sms_body.strip()):
 			order_parse = re.search(order_status_regex, sms_body.strip())
@@ -191,6 +223,8 @@ def match_order(request,order_id):
 		order_status_url = '/order_status/'+str(order.id) +'/'
 		return HttpResponseRedirect(order_status_url)
 def send_sms(number,message):
+	number = '+91' + number[1:]
+	numer = []
 	ACCOUNT_SID = "AC2deb88c500af87f3abf68e0977e3dd8d" 
 	AUTH_TOKEN = "3d508103252df724e85bb633c0455851" 
  	client = TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN) 
@@ -341,7 +375,23 @@ def gruh_dashboard_3(request):
 			nachni = list(nachni)
 			oat = list(oat)
 			return render(request,'gruh_dashboard_3.html',{'sakhi_name':sakhi_name,'mari':mari,'nachni':nachni,'oat':oat})
-
+def update_inventory(request):
+	if request.method == 'POST':
+		user = request.user
+		if user.is_authenticated() and Sakhi.objects.filter(user=user).exists():
+			user = request.user
+			sakhi = Sakhi.objects.get(user=user)
+			oat = int(request.POST.get('oat'))
+			nachni = int(request.POST.get('nachni'))
+			mari = int(request.POST.get('mari'))
+			sakhi.mari += mari
+			sakhi.nachni += nachni
+			sakhi.oat += oat
+			sakhi.save()
+			return HttpResponseRedirect('/sakhi_dashboard/')
+		else:
+			return HttpResponseRedirect('/login_sakhi/')
+	return render(request,'form.html')
 
 	
 
