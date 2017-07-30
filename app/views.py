@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login, logout
 from twilio.rest import TwilioRestClient
-from models import Sakhi, Customer, Order, Distance, Gruh
+from models import Sakhi, Customer, Order, Distance, Gruh, Heat
 import re
 import urllib2
 import json
@@ -420,7 +420,6 @@ def get_sms(request):
  			print message.body
  			print message.sid
  	return HttpResponse('HI!')
-'''
 
 def location_cluster(request):
 	distances = Distance.objects.all()
@@ -428,6 +427,16 @@ def location_cluster(request):
 	for order in orders:
 		sakhi_id = order.placed_from
 		customer_id = order.placed_by
-		distances = Distance.objects.get(sakhi_id=sakhi_id,customer_id=customer_id)
-
-'''		
+		distance = Distance.objects.get(sakhi_id=sakhi_id,customer_id=customer_id)
+		buzzword1 = distance.sakhi_addr
+		area1 = buzzword1.split(',')[-4]
+		buzzword2 = distance.customer_addr
+		area2 = buzzword2.split(',')[-4]
+		heat, created =Heat.objects.get_or_create(area_name = area1.lower().strip())
+		heat.hits+=1
+		heat.save()
+		heat, created =Heat.objects.get_or_create(area_name = area2.lower().strip())
+		heat.hits+=1
+		heat.save()
+	heats = Heat.objects.all()
+	return render(request,'heat.html',{'heats':heats})
