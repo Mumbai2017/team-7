@@ -34,4 +34,5 @@ urlpatterns = [
     url(r'^gruh_dashboard_2/', views.gruh_dashboard_2),
     url(r'^gruh_dashboard_3/', views.gruh_dashboard_3),
     url(r'^update_inventory/$', views.update_inventory),
+    url(r'^login_customer/$', views.login_customer),
 ]

@@ -286,7 +286,7 @@ def login_sakhi(request):
 		else:
 			return HttpResponse('invalid creds')
 	else:
-		return render(request,'login.html')
+		return render(request,'login_sakhi.html')
 
 def order_complete(request,order_id):
 	order = Order.objects.get(id=order_id)
@@ -393,7 +393,18 @@ def update_inventory(request):
 			return HttpResponseRedirect('/login_sakhi/')
 	return render(request,'form.html')
 
-	
+def login_customer(request):
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		user = authenticate(username=username,password=password)
+		if user:
+			login(request,user)
+			return HttpResponseRedirect('/customer-order/')
+		else:
+			return HttpResponse('invalid creds')
+	else:
+		return render(request,'login_customer.html')	
 
 '''
 def get_sms(request):
